@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block title %} Doctor's List {% endblock %}
+
+{% block head %}<i class="fa fa-user-md"></i> Doctors {% endblock head %}
+
+{% block content %}
+
+        <!-- ACTIONS -->
+    <section id="action" class="py-4 mb-4 bg-light">
+        <div class="container">
+            <div class="row">
+            <div class="col-md-3">
+                    <a href="#" class="btn btn-success btn-block mb-3" data-toggle="modal" data-target=#addPostModal>
+                        <i class="fa fa-plus"></i> Add Doctor
+                    </a>
+                </div>
+                <div class="col-md-6 ml-auto">
+                    <form  method="GET" action ='{% url "clinic:doctor-list" %}'>
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search Doctors" value="{{ request.GET.q }}" >
+                            <span class="inpu-group-btn">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctor">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card " style="width:65rem;">
+                    <div class="card-header">
+                        <h4>Doctors</h4>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Phone Number</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if doctor_list %}
+                            {% for doctor in doctor_list %}
+                                <tr>
+                                    <td class="scope">{{ forloop.counter }}</td>
+                                    <td>{{ doctor }}</td>
+                                    <td>{{ doctor.phone_number }}</td>
+                                    <td><a href="{{ doctor.get_absolute_url }}">View profile</a></td>
+
+                                </tr>
+                           {% endfor %}
+                            {% else %}
+                                No doctor found
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+                        {% include "pagination.html" with page=page_obj %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock content %}
